@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/users"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <ion-card *ngIf="!loading && user">
+    <ion-card-header>
+      <ion-card-subtitle>ID {{ user.id }}</ion-card-subtitle>
+      <ion-card-title>{{ user.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ user.email }}</p>
+      <ion-badge [color]="user.active ? 'success' : 'medium'">
+        {{ user.active ? 'Activo' : 'Inactivo' }}
+      </ion-badge>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-text color="danger" *ngIf="!loading && !user">Usuario no encontrado</ion-text>
+</ion-content>

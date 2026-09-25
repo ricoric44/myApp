@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ filter === 'active' ? 'Usuarios Activos' : 'Todos los usuarios' }}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [value]="filter" (ionChange)="onFilterChange($event)">
+      <ion-segment-button value="active">Activos</ion-segment-button>
+      <ion-segment-button value="all">Todos</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="center" *ngIf="loading">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div class="center" *ngIf="!loading && error">
+    <ion-text color="danger">{{ error }}</ion-text>
+  </div>
+
+  <ion-list *ngIf="!loading && !error">
+    <ion-item *ngFor="let user of users" [routerLink]="['/users', user.id]" detail>
+      <ion-label>
+        <h2>{{ user.name }}</h2>
+        <p>{{ user.email }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="user.active ? 'success' : 'medium'">
+        {{ user.active ? 'Activo' : 'Inactivo' }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>
