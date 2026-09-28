@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -53,7 +53,10 @@ export class UsersPage implements OnInit {
   error = '';
   filter: 'active' | 'all' = 'active';
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   async ngOnInit() {
     await this.loadUsers();
@@ -72,6 +75,7 @@ export class UsersPage implements OnInit {
       this.error = 'No se pudieron cargar los usuarios.';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 
